@@ -1,0 +1,294 @@
+{
+  "info": {
+    "name": "StudyBuddy REST API Collection",
+    "description": "Postman Collection for StudyBuddy - Student Study Group Formation Tool (All 5 Compulsory Features & Supporting APIs)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080/api",
+      "type": "string"
+    },
+    {
+      "key": "authToken",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Authentication",
+      "item": [
+        {
+          "name": "Login Student (Obtain Token)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"alex.johnson@university.edu\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "Get Current Logged In Student",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/me",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "me"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Students",
+      "item": [
+        {
+          "name": "Create Student",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"George Clark\",\n  \"email\": \"george.clark@university.edu\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/students",
+              "host": ["{{baseUrl}}"],
+              "path": ["students"]
+            }
+          }
+        },
+        {
+          "name": "Get All Students",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/students",
+              "host": ["{{baseUrl}}"],
+              "path": ["students"]
+            }
+          }
+        },
+        {
+          "name": "Get Student by ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/students/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["students", "1"]
+            }
+          }
+        },
+        {
+          "name": "Get Groups Joined by Student",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/students/1/groups",
+              "host": ["{{baseUrl}}"],
+              "path": ["students", "1", "groups"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Subjects",
+      "item": [
+        {
+          "name": "Create Subject",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"subjectName\": \"Cloud Computing\",\n  \"subjectCode\": \"CS505\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/subjects",
+              "host": ["{{baseUrl}}"],
+              "path": ["subjects"]
+            }
+          }
+        },
+        {
+          "name": "Get All Subjects",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/subjects",
+              "host": ["{{baseUrl}}"],
+              "path": ["subjects"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Study Groups (Features 1 & 4)",
+      "item": [
+        {
+          "name": "Compulsory Feature 1: Create Group",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"groupName\": \"Web Security & Cryptography Circle\",\n  \"subjectId\": 1,\n  \"creatorId\": 1,\n  \"maxMembers\": 4\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/groups",
+              "host": ["{{baseUrl}}"],
+              "path": ["groups"]
+            }
+          }
+        },
+        {
+          "name": "Get All Groups",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/groups",
+              "host": ["{{baseUrl}}"],
+              "path": ["groups"]
+            }
+          }
+        },
+        {
+          "name": "Compulsory Feature 4: View Groups by Subject",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/groups?subjectId=1",
+              "host": ["{{baseUrl}}"],
+              "path": ["groups"],
+              "query": [
+                {
+                  "key": "subjectId",
+                  "value": "1"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Group by ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/groups/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["groups", "1"]
+            }
+          }
+        },
+        {
+          "name": "Transfer Creator Ownership",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"newCreatorId\": 2\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/groups/1/transfer-creator",
+              "host": ["{{baseUrl}}"],
+              "path": ["groups", "1", "transfer-creator"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "5. Memberships (Features 2, 3 & 5)",
+      "item": [
+        {
+          "name": "Compulsory Feature 2: Join Group",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"studentId\": 4\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/groups/1/join",
+              "host": ["{{baseUrl}}"],
+              "path": ["groups", "1", "join"]
+            }
+          }
+        },
+        {
+          "name": "Get Group Members",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/groups/1/members",
+              "host": ["{{baseUrl}}"],
+              "path": ["groups", "1", "members"]
+            }
+          }
+        },
+        {
+          "name": "Compulsory Feature 3: Leave Group",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{baseUrl}}/groups/1/leave?studentId=4",
+              "host": ["{{baseUrl}}"],
+              "path": ["groups", "1", "leave"],
+              "query": [
+                {
+                  "key": "studentId",
+                  "value": "4"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Compulsory Feature 5: Remove Member (Creator Only)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/groups/1/members/2",
+              "host": ["{{baseUrl}}"],
+              "path": ["groups", "1", "members", "2"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
